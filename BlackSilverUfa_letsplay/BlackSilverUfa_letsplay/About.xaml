@@ -12,11 +12,11 @@
     <Grid>
         <StackPanel Grid.Row="1" Margin="40">
             <TextBlock HorizontalAlignment="Left" 
-		Margin="0" TextWrapping="Wrap" Text="Ищем посылки по трекномеру на основе данных, предоставляемых почтой России." 
+		Margin="0" TextWrapping="Wrap" Text="Видео и плейлисты игрового канала Блека - http://www.youtube.com/user/BlackSilverUfa" 
 		VerticalAlignment="Top" Foreground="Black"  Style="{StaticResource BodyTextStyle}"/>
-            <TextBlock HorizontalAlignment="Left" 
-		Margin="0,10,0,0" TextWrapping="Wrap" Text="Используются данные, предоставляемые Почтой России и сервисом prishlo.li." 
-		VerticalAlignment="Top" Foreground="Black" Style="{StaticResource BodyTextStyle}"/>
+
+            <HyperlinkButton Content="BlackSilverUfa" HorizontalAlignment="Left" 
+			NavigateUri="http://www.youtube.com/user/BlackSilverUfa" Foreground="#FF420000" FontSize="16" FontWeight="Normal" Margin="-15,0,0,0"/>
 
             <TextBlock HorizontalAlignment="Left" 
 		Margin="0,10,0,10" TextWrapping="Wrap" Text="Автор - Ленев Антон Сергеевич" 

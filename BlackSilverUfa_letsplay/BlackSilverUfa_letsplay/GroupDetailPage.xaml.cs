@@ -1,11 +1,12 @@
 ﻿using BlackSilverUfa_letsplay.Data;
-
+using Callisto.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,6 +28,35 @@ namespace BlackSilverUfa_letsplay
         public GroupDetailPage()
         {
             this.InitializeComponent();
+        }
+
+
+        void Settings_CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            try
+            {
+                var viewAboutPage = new SettingsCommand("", "About", cmd =>
+                {
+                    //(Window.Current.Content as Frame).Navigate(typeof(AboutPage));
+                    var settingsFlyout = new SettingsFlyout();
+                    settingsFlyout.Content = new About();
+                    settingsFlyout.HeaderText = "About";
+
+                    settingsFlyout.IsOpen = true;
+                });
+                args.Request.ApplicationCommands.Add(viewAboutPage);
+
+                /*var viewAboutMalukahPage = new SettingsCommand("", "About Malukah", cmd =>
+                {
+                    var settingsFlyout = new SettingsFlyout();
+                    settingsFlyout.Content = new AboutMalukah();
+                    settingsFlyout.HeaderText = "About Malukah";
+
+                    settingsFlyout.IsOpen = true;
+                });
+                args.Request.ApplicationCommands.Add(viewAboutMalukahPage);*/
+            }
+            catch { };
         }
 
         /// <summary>

@@ -12,7 +12,8 @@
     <DefaultLanguage>ru-RU</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>BlackSilverUfa_letsplay_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>BlackSilverUfa_letsplay_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>D0F85452C11AC400210795580BFB5C65E7D96B5A</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -128,11 +129,13 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="BlackSilverUfa_letsplay_StoreKey.pfx" />
     <None Include="Common\ReadMe.txt" />
     <None Include="BlackSilverUfa_letsplay_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Package.StoreAssociation.xml" />
     <Page Include="About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

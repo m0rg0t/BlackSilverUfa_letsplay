@@ -247,7 +247,7 @@ namespace BlackSilverUfa_letsplay.Data
             get { return this._allGroups; }
         }
 
-        public async Task<string> MakeWebRequestForYouTube(string url="http://gdata.youtube.com/feeds/api/users/BlackSilverUfa/playlists?max-results=10")
+        public async Task<string> MakeWebRequestForYouTube(string url="http://gdata.youtube.com/feeds/api/users/BlackSilverUfa/playlists?max-results=7")
         {
             HttpClient http = new System.Net.Http.HttpClient();
             HttpResponseMessage response = await http.GetAsync(url);

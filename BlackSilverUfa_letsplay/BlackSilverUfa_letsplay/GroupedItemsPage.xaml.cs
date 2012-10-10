@@ -27,18 +27,20 @@ namespace BlackSilverUfa_letsplay
         public GroupedItemsPage()
         {
             this.InitializeComponent();
+            SettingsPane.GetForCurrentView().CommandsRequested += Settings_CommandsRequested;
         }
+
 
         void Settings_CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
         {
             try
             {
-                var viewAboutPage = new SettingsCommand("", "About", cmd =>
+                var viewAboutPage = new SettingsCommand("", "Об авторе", cmd =>
                 {
                     //(Window.Current.Content as Frame).Navigate(typeof(AboutPage));
                     var settingsFlyout = new SettingsFlyout();
                     settingsFlyout.Content = new About();
-                    settingsFlyout.HeaderText = "About";
+                    settingsFlyout.HeaderText = "Об авторе";
 
                     settingsFlyout.IsOpen = true;
                 });

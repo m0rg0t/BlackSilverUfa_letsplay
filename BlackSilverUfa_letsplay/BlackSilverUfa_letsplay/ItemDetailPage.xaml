@@ -46,7 +46,7 @@
             AutomationProperties.Name="Item Details"
             TabIndex="1"
             Grid.RowSpan="2"
-            ItemsSource="{Binding Source={StaticResource itemsViewSource}}">
+            ItemsSource="{Binding Source={StaticResource itemsViewSource}}" HorizontalAlignment="Center">
 
             <FlipView.ItemContainerStyle>
                 <Style TargetType="FlipViewItem">
@@ -66,20 +66,23 @@
 
                             <!-- Содержимое может занимать столько столбцов, сколько потребуется -->
                             <common:RichTextColumns x:Name="richTextColumns" Margin="117,0,117,47">
-                                <RichTextBlock x:Name="richTextBlock" Width="560" Style="{StaticResource ItemRichTextStyle}" IsTextSelectionEnabled="False">
+                                <RichTextBlock x:Name="richTextBlock" Width="560" Style="{StaticResource ItemRichTextStyle}" IsTextSelectionEnabled="False" VerticalAlignment="Top">
                                     <Paragraph>
-                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Title}"/>
+                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Title}"/>     
                                         <LineBreak/>
-                                        <LineBreak/>
-                                        <Run FontWeight="Normal" Text="{Binding Subtitle}"/>
                                     </Paragraph>
                                     <Paragraph LineStackingStrategy="MaxHeight">
                                         <InlineUIContainer>
-                                            <Image x:Name="image" MaxHeight="480" Margin="0,20,0,10" Stretch="Uniform" Source="{Binding Image}" AutomationProperties.Name="{Binding Title}"/>
+                                            <Image x:Name="image" MaxHeight="230" Margin="0,20,0,10" Stretch="Uniform" Source="{Binding Image}" AutomationProperties.Name="{Binding Title}" HorizontalAlignment="Center"/>
                                         </InlineUIContainer>
                                     </Paragraph>
                                     <Paragraph>
-                                        <Run FontWeight="SemiLight" Text="{Binding Content}"/>
+                                        <Run FontWeight="SemiLight" Text="{Binding Description}"/>
+                                    </Paragraph>
+                                    <Paragraph>
+                                        <InlineUIContainer>
+                                            <WebView Source="{Binding Subtitle}" Height="400"/>
+                                        </InlineUIContainer>
                                     </Paragraph>
                                 </RichTextBlock>
 

@@ -161,50 +161,50 @@ namespace BlackSilverUfa_letsplay.Data
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    if (e.NewStartingIndex < 12)
+                    if (e.NewStartingIndex < 6)
                     {
                         TopItems.Insert(e.NewStartingIndex,Items[e.NewStartingIndex]);
-                        if (TopItems.Count > 12)
+                        if (TopItems.Count > 6)
                         {
-                            TopItems.RemoveAt(12);
+                            TopItems.RemoveAt(6);
                         }
                     }
                     break;
                 case NotifyCollectionChangedAction.Move:
-                    if (e.OldStartingIndex < 12 && e.NewStartingIndex < 12)
+                    if (e.OldStartingIndex < 6 && e.NewStartingIndex < 6)
                     {
                         TopItems.Move(e.OldStartingIndex, e.NewStartingIndex);
                     }
-                    else if (e.OldStartingIndex < 12)
+                    else if (e.OldStartingIndex < 6)
                     {
                         TopItems.RemoveAt(e.OldStartingIndex);
-                        TopItems.Add(Items[11]);
+                        TopItems.Add(Items[5]);
                     }
-                    else if (e.NewStartingIndex < 12)
+                    else if (e.NewStartingIndex < 6)
                     {
                         TopItems.Insert(e.NewStartingIndex, Items[e.NewStartingIndex]);
-                        TopItems.RemoveAt(12);
+                        TopItems.RemoveAt(6);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    if (e.OldStartingIndex < 12)
+                    if (e.OldStartingIndex < 6)
                     {
                         TopItems.RemoveAt(e.OldStartingIndex);
-                        if (Items.Count >= 12)
+                        if (Items.Count >= 6)
                         {
-                            TopItems.Add(Items[11]);
+                            TopItems.Add(Items[5]);
                         }
                     }
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    if (e.OldStartingIndex < 12)
+                    if (e.OldStartingIndex < 6)
                     {
                         TopItems[e.OldStartingIndex] = Items[e.OldStartingIndex];
                     }
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     TopItems.Clear();
-                    while (TopItems.Count < Items.Count && TopItems.Count < 12)
+                    while (TopItems.Count < Items.Count && TopItems.Count < 6)
                     {
                         TopItems.Add(Items[TopItems.Count]);
                     }
@@ -299,7 +299,9 @@ namespace BlackSilverUfa_letsplay.Data
                 var image = "";
                 try
                 {
-                    image = item.Elements(media + "group").FirstOrDefault(c => c.Attribute(yt + "name").Value.ToString() == "hqdefault").Attribute("url").Value.ToString();
+                    image = item.Descendants(media + "thumbnail").ToList()[2].Attribute("url").Value.ToString();
+                    //OrDefault(c => c.Attribute(yt + "name").Value.ToString() == "hqdefault")
+                    //video.Descendants(media + "thumbnail").ToList().First().Attribute("url").Value.ToString();
                 }
                 catch {
                     image = "/Assets/LightGray.png";
@@ -330,7 +332,7 @@ namespace BlackSilverUfa_letsplay.Data
                     var vimage = "";
                     try
                     {
-                        vimage = item.Element(media + "group").Descendants(media + "thumbnail").First().Element(media + "thumbnail").Attribute("url").Value.ToString();
+                        vimage = video.Descendants(media + "thumbnail").ToList().First().Attribute("url").Value.ToString();
                         //.FirstOrDefault(c => c.Attribute(yt + "name").Value.ToString() == "hqdefault").Attribute("url").Value.ToString();
                     }
                     catch
@@ -341,7 +343,9 @@ namespace BlackSilverUfa_letsplay.Data
                     var player = "";
                     try
                     {
-                        player = item.Element(media + "player").Attribute("url").Value.ToString();
+                        var player1 = video.Descendants(media + "player").ToList();
+                        player = player1.First().Attribute("url").Value.ToString();
+                            //.Attribute("url").Value.ToString();
                     }
                     catch
                     {
@@ -356,7 +360,11 @@ namespace BlackSilverUfa_letsplay.Data
                     group6));
                 };
 
-                this.AllGroups.Add(group6);
+                try
+                {
+                    this.AllGroups.Add(group6);
+                }
+                catch { };
             };
             /*XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
             //Geting XMl from the file.

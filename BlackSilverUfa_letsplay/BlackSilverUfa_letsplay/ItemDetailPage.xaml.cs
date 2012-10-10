@@ -1,11 +1,13 @@
 ﻿using BlackSilverUfa_letsplay.Data;
-
+using MyToolkit.Multimedia;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -47,11 +49,19 @@ namespace BlackSilverUfa_letsplay
             }
 
             // TODO: Создание соответствующей модели данных для области проблемы, чтобы заменить пример данных
-            var item = SampleDataSource.GetItem((String)navigationParameter);
-            this.DefaultViewModel["Group"] = item.Group;
-            this.DefaultViewModel["Items"] = item.Group.Items;
-            this.flipView.SelectedItem = item;
+            item = SampleDataSource.GetItem((String)navigationParameter);
+            //this.DefaultViewModel["Group"] = item.Group;
+            //this.DefaultViewModel["Items"] = item.Group.Items;
+            this.DefaultViewModel["Item"] = item;
+            this.Player.Tag = item.Content.ToString();
+            this.Description.Text = item.Description;
+            this.Title.Text = item.Title;
+            this.pageTitle.Text = item.Group.Title;
+            //this.Image.Source = item.Image;
+            //this.flipView.SelectedItem = item;
         }
+
+        private SampleDataItem item;
 
         /// <summary>
         /// Сохраняет состояние, связанное с данной страницей, в случае приостановки приложения или
@@ -61,8 +71,45 @@ namespace BlackSilverUfa_letsplay
         /// <param name="pageState">Пустой словарь, заполняемый сериализуемым состоянием.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
-            var selectedItem = (SampleDataItem)this.flipView.SelectedItem;
-            pageState["SelectedItem"] = selectedItem.UniqueId;
+            //var selectedItem = (SampleDataItem)this.flipView.SelectedItem;
+            pageState["SelectedItem"] = item.UniqueId;
+        }
+
+        private async void image_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            try
+            {
+                await Launcher.LaunchUriAsync(new Uri(((Image)sender).Tag.ToString()));
+            }
+            catch { };
+        }
+
+        private string GetYouTubeID(string youTubeUrl)
+        {
+            //Setup the RegEx Match and give it 
+            Match regexMatch = Regex.Match(youTubeUrl, "^[^v]+v=(.{11}).*",
+                               RegexOptions.IgnoreCase);
+            if (regexMatch.Success)
+            {
+                return regexMatch.Groups[1].Value;
+            }
+            return youTubeUrl;
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var url = await YouTube.GetVideoUriAsync(GetYouTubeID(((Button)sender).Tag.ToString()), YouTubeQuality.Quality480P);
+            //var player = new MediaElement();
+            //..Source = url.Uri;
+            //Player.Play();
+        }
+
+        private async void Player_Loaded(object sender, RoutedEventArgs e)
+        {
+            var url = await YouTube.GetVideoUriAsync(GetYouTubeID(((MediaElement)sender).Tag.ToString()), YouTubeQuality.Quality480P);
+            //var player = new MediaElement();
+            ((MediaElement)sender).Source = url.Uri;
+            ((MediaElement)sender).Play();
         }
     }
 }

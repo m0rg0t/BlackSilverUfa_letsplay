@@ -15,6 +15,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using System.Xml.Linq;
+using Windows.Storage.Streams;
+using System.Text.RegularExpressions;
 
 // Модель данных, определяемая этим файлом, служит типичным примером строго типизированной
 // модели, которая поддерживает уведомление при добавлении, удалении или изменении членов. Выбранные
@@ -115,6 +117,8 @@ namespace BlackSilverUfa_letsplay.Data
             this._group = group;
         }
 
+
+
         private string _content = string.Empty;
         public string Content
         {
@@ -128,6 +132,8 @@ namespace BlackSilverUfa_letsplay.Data
             get { return this._group; }
             set { this.SetProperty(ref this._group, value); }
         }
+
+        public string image_url { get; set; }
     }
 
     /// <summary>
@@ -241,7 +247,7 @@ namespace BlackSilverUfa_letsplay.Data
             get { return this._allGroups; }
         }
 
-        public async Task<string> MakeWebRequestForYouTube(string url="http://gdata.youtube.com/feeds/api/users/BlackSilverUfa/playlists")
+        public async Task<string> MakeWebRequestForYouTube(string url="http://gdata.youtube.com/feeds/api/users/BlackSilverUfa/playlists?max-results=10")
         {
             HttpClient http = new System.Net.Http.HttpClient();
             HttpResponseMessage response = await http.GetAsync(url);
@@ -276,6 +282,49 @@ namespace BlackSilverUfa_letsplay.Data
             this.LoadData();
         }
 
+        /*public delegate void DataLoadEventHandler(object sender, EventArgs e);
+        public event DataLoadEventHandler DataLoad;
+        protected virtual void OnDataLoad(EventArgs e)
+        {
+
+            if (DataLoad != null)
+            {
+                //this.NotifyPropertyChanged("Items");
+                DataLoad(this, e);
+            };
+        }*/
+
+
+        private async void LoadImages(ObservableCollection<SampleDataItem> gitems)
+        {
+            try
+            {
+                List<BitmapImage> ImagesList = new List<BitmapImage>();
+
+                foreach (var item in gitems)
+                {
+                    var httpClient = new HttpClient();
+                    var contentBytes = await httpClient.GetByteArrayAsync(item.image_url);
+                    var ims = new InMemoryRandomAccessStream();
+                    var dataWriter = new DataWriter(ims);
+                    dataWriter.WriteBytes(contentBytes);
+                    await dataWriter.StoreAsync();
+                    ims.Seek(0);
+
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.SetSource(ims);
+                    ImagesList.Add(bitmap);
+                };
+
+                for (var i = 0; i < gitems.Count(); i++)
+                {
+                    gitems[i].Image = ImagesList[i];
+                };
+            }
+            catch { };
+        }
+
+
         public async void LoadData()
         {
             string playlistsxml = await this.MakeWebRequestForYouTube();
@@ -300,8 +349,6 @@ namespace BlackSilverUfa_letsplay.Data
                 try
                 {
                     image = item.Descendants(media + "thumbnail").ToList()[2].Attribute("url").Value.ToString();
-                    //OrDefault(c => c.Attribute(yt + "name").Value.ToString() == "hqdefault")
-                    //video.Descendants(media + "thumbnail").ToList().First().Attribute("url").Value.ToString();
                 }
                 catch {
                     image = "/Assets/LightGray.png";
@@ -333,7 +380,6 @@ namespace BlackSilverUfa_letsplay.Data
                     try
                     {
                         vimage = video.Descendants(media + "thumbnail").ToList().First().Attribute("url").Value.ToString();
-                        //.FirstOrDefault(c => c.Attribute(yt + "name").Value.ToString() == "hqdefault").Attribute("url").Value.ToString();
                     }
                     catch
                     {
@@ -356,22 +402,17 @@ namespace BlackSilverUfa_letsplay.Data
                     player,
                     vimage,
                     vdescription,
-                    "",
+                    player,
                     group6));
                 };
 
                 try
-                {
+                {                   
                     this.AllGroups.Add(group6);
                 }
                 catch { };
             };
-            /*XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
-            //Geting XMl from the file.
-            TextReader tr = new StreamReader(Server.MapPath("book1.xml"));
-            //Deserialize back to object from XML
-            List<T> b = (List<T>)serializer.Deserialize(tr);
-            tr.Close();*/
         }
+        //SampleDataSource.OnDataLoad(EventArgs.Empty);
     }
 }

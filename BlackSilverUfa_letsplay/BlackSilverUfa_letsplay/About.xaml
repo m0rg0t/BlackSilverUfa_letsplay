@@ -1,0 +1,41 @@
+﻿<UserControl
+    x:Class="BlackSilverUfa_letsplay.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BlackSilverUfa_letsplay"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    
+    <Grid>
+        <StackPanel Grid.Row="1" Margin="40">
+            <TextBlock HorizontalAlignment="Left" 
+		Margin="0" TextWrapping="Wrap" Text="Ищем посылки по трекномеру на основе данных, предоставляемых почтой России." 
+		VerticalAlignment="Top" Foreground="Black"  Style="{StaticResource BodyTextStyle}"/>
+            <TextBlock HorizontalAlignment="Left" 
+		Margin="0,10,0,0" TextWrapping="Wrap" Text="Используются данные, предоставляемые Почтой России и сервисом prishlo.li." 
+		VerticalAlignment="Top" Foreground="Black" Style="{StaticResource BodyTextStyle}"/>
+
+            <TextBlock HorizontalAlignment="Left" 
+		Margin="0,10,0,10" TextWrapping="Wrap" Text="Автор - Ленев Антон Сергеевич" 
+		VerticalAlignment="Top" Foreground="Black"  Style="{StaticResource BodyTextStyle}"/>
+
+            <HyperlinkButton Content="@m0rg0t" HorizontalAlignment="Left" 
+			NavigateUri="http://twitter.com/m0rg0t" Foreground="#FF420000" FontSize="16" FontWeight="Normal" Margin="-15,0,0,0"/>
+
+            <HyperlinkButton Content="http://m0rg0t.ru" HorizontalAlignment="Left" 
+			NavigateUri="http://m0rg0t.ru" Foreground="#FF420000" FontSize="16" FontWeight="Normal" Margin="-15,0,0,0"/>
+
+            <HyperlinkButton Content="m0rg0t.Anton@gmail.com" HorizontalAlignment="Left" 
+			NavigateUri="mailto:m0rg0t.Anton@gmail.com" Foreground="#FF420000" FontSize="16" FontWeight="Normal" Margin="-15,0,0,0"/>
+
+
+            <Image Source="Assets/290360_524708930876604_1945697300_o.jpg" Stretch="UniformToFill" VerticalAlignment="Top" Margin="0,15,0,0"/>
+
+
+
+        </StackPanel>
+    </Grid>
+</UserControl>

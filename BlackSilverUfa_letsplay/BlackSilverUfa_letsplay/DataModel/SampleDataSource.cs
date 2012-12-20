@@ -17,6 +17,7 @@ using Windows.Data.Xml.Dom;
 using System.Xml.Linq;
 using Windows.Storage.Streams;
 using System.Text.RegularExpressions;
+using Windows.System.Threading;
 
 // Модель данных, определяемая этим файлом, служит типичным примером строго типизированной
 // модели, которая поддерживает уведомление при добавлении, удалении или изменении членов. Выбранные
@@ -247,7 +248,7 @@ namespace BlackSilverUfa_letsplay.Data
             get { return this._allGroups; }
         }
 
-        public async Task<string> MakeWebRequestForYouTube(string url="http://gdata.youtube.com/feeds/api/users/BlackSilverUfa/playlists?max-results=7")
+        public async Task<string> MakeWebRequestForYouTube(string url="http://gdata.youtube.com/feeds/api/users/BlackSilverUfa/playlists?max-results=10")
         {
             HttpClient http = new System.Net.Http.HttpClient();
             HttpResponseMessage response = await http.GetAsync(url);
@@ -280,6 +281,19 @@ namespace BlackSilverUfa_letsplay.Data
         public SampleDataSource()
         {
             this.LoadData();
+            //IAsyncAction thread = ThreadPool.RunAsync(Do_Work); // I find it helpful to think of IAsyncAction as thread objects although it isn't exactly the same.
+            //thread.Completed = new AsyncActionCompletedHandler(Work_Finished);
+        }
+
+        private void Work_Finished(IAsyncAction asyncInfo, AsyncStatus asyncStatus)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void Do_Work(IAsyncAction operation)
+        {
+            this.LoadData();
+            //throw new NotImplementedException();
         }
 
         /*public delegate void DataLoadEventHandler(object sender, EventArgs e);
@@ -370,6 +384,7 @@ namespace BlackSilverUfa_letsplay.Data
 
                 var videos1 = from e in playlistdata.Descendants(ns + "entry") select e;
                 var videos = videos1.ToList();
+
                 foreach (var video in videos)
                 {
                     var vid = video.Element(ns + "id").Value.ToString();

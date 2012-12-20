@@ -46,15 +46,15 @@ namespace BlackSilverUfa_letsplay
                 });
                 args.Request.ApplicationCommands.Add(viewAboutPage);
 
-                /*var viewAboutMalukahPage = new SettingsCommand("", "About Malukah", cmd =>
+                var viewAboutMalukahPage = new SettingsCommand("", "Политика конфиденциальности", cmd =>
                 {
                     var settingsFlyout = new SettingsFlyout();
-                    settingsFlyout.Content = new AboutMalukah();
-                    settingsFlyout.HeaderText = "About Malukah";
+                    settingsFlyout.Content = new Privacy();
+                    settingsFlyout.HeaderText = "Политика конфиденциальности";
 
                     settingsFlyout.IsOpen = true;
                 });
-                args.Request.ApplicationCommands.Add(viewAboutMalukahPage);*/
+                args.Request.ApplicationCommands.Add(viewAboutMalukahPage);
             }
             catch { };
         }

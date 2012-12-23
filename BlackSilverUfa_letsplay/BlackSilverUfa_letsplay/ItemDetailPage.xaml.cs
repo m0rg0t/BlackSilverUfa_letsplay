@@ -44,23 +44,31 @@ namespace BlackSilverUfa_letsplay
         /// сеанса. Это значение будет равно NULL при первом посещении страницы.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            // Разрешение сохраненному состоянию страницы переопределять первоначально отображаемый элемент
-            if (pageState != null && pageState.ContainsKey("SelectedItem"))
+            try
             {
-                navigationParameter = pageState["SelectedItem"];
-            }
+                // Разрешение сохраненному состоянию страницы переопределять первоначально отображаемый элемент
+                if (pageState != null && pageState.ContainsKey("SelectedItem"))
+                {
+                    navigationParameter = pageState["SelectedItem"];
+                }
 
-            // TODO: Создание соответствующей модели данных для области проблемы, чтобы заменить пример данных
-            item = SampleDataSource.GetItem((String)navigationParameter);
-            //this.DefaultViewModel["Group"] = item.Group;
-            //this.DefaultViewModel["Items"] = item.Group.Items;
-            this.DefaultViewModel["Item"] = item;
-            this.Player.Tag = item.Content.ToString();
-            this.Description.Text = item.Description;
-            this.Title.Text = item.Title;
-            this.pageTitle.Text = item.Group.Title;
-            //this.Image.Source = item.Image;
-            //this.flipView.SelectedItem = item;
+                // TODO: Создание соответствующей модели данных для области проблемы, чтобы заменить пример данных
+                item = SampleDataSource.GetItem((String)navigationParameter);
+                //this.DefaultViewModel["Group"] = item.Group;
+                //this.DefaultViewModel["Items"] = item.Group.Items;
+                this.DefaultViewModel["Item"] = item;
+                try
+                {
+                    this.Player.Tag = item.Content.ToString();
+                }
+                catch { };
+                this.Description.Text = item.Description;
+                this.Title.Text = item.Title;
+                this.pageTitle.Text = item.Group.Title;
+                //this.Image.Source = item.Image;
+                //this.flipView.SelectedItem = item;
+            }
+            catch { };
         }
 
 
@@ -137,10 +145,85 @@ namespace BlackSilverUfa_letsplay
 
         private async void Player_Loaded(object sender, RoutedEventArgs e)
         {
-            var url = await YouTube.GetVideoUriAsync(GetYouTubeID(((MediaElement)sender).Tag.ToString()), YouTubeQuality.Quality480P);
-            //var player = new MediaElement();
-            ((MediaElement)sender).Source = url.Uri;
-            ((MediaElement)sender).Play();
+            try
+            {
+                //var url = await YouTube.GetVideoUriAsync(GetYouTubeID(((MediaElement)sender).Tag.ToString()), YouTubeQuality.Quality480P);
+                var url = await YouTube.GetVideoUriAsync(GetYouTubeID((item as SampleDataItem).Content.ToString()), YouTubeQuality.Quality480P);
+                var url2 = await YouTube.GetVideoUriAsync(GetYouTubeID((item as SampleDataItem).Content.ToString()), YouTubeQuality.Quality720P);
+                //var player = new MediaElement();
+
+                this.PlayerFull.Source = url2.Uri;
+                this.PlayerFull.Stop();
+
+                ((MediaElement)sender).Source = url.Uri;
+                ((MediaElement)sender).Play();
+            }
+            catch { };
+        }
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            if (FullscreenOff)
+            {
+                this.Player.Play();
+            }
+            else
+            {
+                this.PlayerFull.Play();
+            };
+        }
+
+        bool FullscreenOff = true;
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            if (FullscreenOff)
+            {
+                this.Player.Pause();
+            }
+            else
+            {
+                this.PlayerFull.Pause();
+            };
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            if (FullscreenOff)
+            {
+                this.Player.Stop();
+            }
+            else {
+                this.PlayerFull.Stop();
+            };
+        }
+
+        private void Fullscreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (FullscreenOff)
+            {
+                this.Player.Pause();
+                this.PlayerFull.Position = this.Player.Position;
+
+                this.Player.Visibility = Visibility.Collapsed;
+                this.PlayerFull.Visibility = Visibility.Visible;
+                this.scrollViewer.Visibility = Visibility.Collapsed;
+
+                this.PlayerFull.Play();
+                FullscreenOff = false;
+            }
+            else
+            {
+                this.PlayerFull.Pause();
+                this.Player.Position = this.PlayerFull.Position;
+
+                this.Player.Visibility = Visibility.Visible;
+                this.PlayerFull.Visibility = Visibility.Collapsed;
+                this.scrollViewer.Visibility = Visibility.Visible;
+
+                this.Player.Play();
+                FullscreenOff = true;
+            };
         }
     }
 }

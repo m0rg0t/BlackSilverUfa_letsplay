@@ -343,10 +343,14 @@
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
+    <MainPackageIdentityName>43337m0rg0t.AustinWintorymusic</MainPackageIdentityName>
+    <MainPackageIdentityName>43337m0rg0t.Bashorgcomics</MainPackageIdentityName>
     <MainPackageIdentityName>43337m0rg0t.GodvilleSimpleMonitor</MainPackageIdentityName>
     <MainPackageIdentityName>43337m0rg0t.JackShepard</MainPackageIdentityName>
     <MainPackageIdentityName>43337m0rg0t.Malukahsongs</MainPackageIdentityName>
     <MainPackageIdentityName>43337m0rg0t.Photofields</MainPackageIdentityName>
+    <MainPackageIdentityName>43337m0rg0t.SimpleConwaysGameofLife</MainPackageIdentityName>
+    <MainPackageIdentityName>43337m0rg0t.Victorium-</MainPackageIdentityName>
     <MainPackageIdentityName>43337m0rg0t.61938D133BA94</MainPackageIdentityName>
     <MainPackageIdentityName>43337m0rg0t.6385682C0B40</MainPackageIdentityName>
     <MainPackageIdentityName>43337m0rg0t.544352BC4813B</MainPackageIdentityName>
@@ -356,15 +360,15 @@
   <PackageInfoList LandingUrl="https://appdev.microsoft.com:443/StorePortals/Developer/Catalog/ReleaseAnchor/58edc265-b53c-4797-8dc3-3ba932f24f25">
     <PackageInfo>
       <PackageArchitecture>arm</PackageArchitecture>
-      <PackageMaxArchitectureVersion>1.0.0.0</PackageMaxArchitectureVersion>
+      <PackageMaxArchitectureVersion>1.0.0.1</PackageMaxArchitectureVersion>
     </PackageInfo>
     <PackageInfo>
       <PackageArchitecture>x64</PackageArchitecture>
-      <PackageMaxArchitectureVersion>1.0.0.0</PackageMaxArchitectureVersion>
+      <PackageMaxArchitectureVersion>1.0.0.1</PackageMaxArchitectureVersion>
     </PackageInfo>
     <PackageInfo>
       <PackageArchitecture>x86</PackageArchitecture>
-      <PackageMaxArchitectureVersion>1.0.0.0</PackageMaxArchitectureVersion>
+      <PackageMaxArchitectureVersion>1.0.0.1</PackageMaxArchitectureVersion>
     </PackageInfo>
   </PackageInfoList>
 </StoreAssociation>

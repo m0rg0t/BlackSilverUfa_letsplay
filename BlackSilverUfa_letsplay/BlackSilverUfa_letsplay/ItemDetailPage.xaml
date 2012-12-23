@@ -19,6 +19,23 @@
             Source="{Binding Items}"
             d:Source="{Binding AllGroups[0].Items, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
     </Page.Resources>
+	<common:LayoutAwarePage.BottomAppBar>
+		<AppBar IsOpen="True" Name="AppBar1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<StackPanel Orientation="Horizontal">
+					<Button Name="Play" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource PlayAppBarButtonStyle}" Click="Play_Click"/>
+					<Button Name="Pause" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource PauseAppBarButtonStyle}" Click="Pause_Click"/>
+					<Button Name="Stop" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource StopAppBarButtonStyle}" Click="Stop_Click"/>
+					<Button Name="Fullscreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource FullScreenAppBarButtonStyle}" Click="Fullscreen_Click"/>
+				</StackPanel>
+				<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal"/>
+			</Grid>
+		</AppBar>
+	</common:LayoutAwarePage.BottomAppBar>
 
     <!--
         Эта сетка выступает в роли корневой области страницы и определяет две строки:
@@ -35,6 +52,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <MediaElement Visibility="Collapsed" Name="PlayerFull" Grid.Row="1" Margin="0" Width="Auto" Loaded="Player_Loaded" Tag="{Binding Content}" AudioCategory="ForegroundOnlyMedia" AutomationProperties.Name="{Binding Content}"/>
 
         <ScrollViewer x:Name="scrollViewer" Style="{StaticResource HorizontalScrollViewerStyle}" Grid.Row="1">
             <StackPanel Margin="117,0,117,47" Name="MainPanel">

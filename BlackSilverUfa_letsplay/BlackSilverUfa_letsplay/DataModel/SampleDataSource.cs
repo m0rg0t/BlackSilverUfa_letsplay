@@ -293,21 +293,7 @@ namespace BlackSilverUfa_letsplay.Data
         private void Do_Work(IAsyncAction operation)
         {
             this.LoadData();
-            //throw new NotImplementedException();
         }
-
-        /*public delegate void DataLoadEventHandler(object sender, EventArgs e);
-        public event DataLoadEventHandler DataLoad;
-        protected virtual void OnDataLoad(EventArgs e)
-        {
-
-            if (DataLoad != null)
-            {
-                //this.NotifyPropertyChanged("Items");
-                DataLoad(this, e);
-            };
-        }*/
-
 
         private async void LoadImages(ObservableCollection<SampleDataItem> gitems)
         {
@@ -341,93 +327,106 @@ namespace BlackSilverUfa_letsplay.Data
 
         public async void LoadData()
         {
-            string playlistsxml = await this.MakeWebRequestForYouTube();
-
-            XDocument playlists = XDocument.Parse(playlistsxml);
-            //playlists.Descendants("feed").Descendants("Entry")
-
-            XNamespace ns = "http://www.w3.org/2005/Atom";
-            XNamespace media = "http://search.yahoo.com/mrss/";
-            XNamespace yt = "http://gdata.youtube.com/schemas/2007";
-            XNamespace gd = "http://schemas.google.com/g/2005";
-            
-
-            var estates = from e in playlists.Descendants(ns + "entry") select e;
-            var items = estates.ToList();
-            foreach (var item in items)
+            try
             {
-                var id = item.Element(ns + "id").Value.ToString();
-                var title = item.Element(ns + "title").Value.ToString();
-                var link = item.Elements(ns + "link").FirstOrDefault(c => c.Attribute("rel").Value.ToString() == "alternate").Attribute("href").Value.ToString();
-                var image = "";
-                try
+                string playlistsxml = await this.MakeWebRequestForYouTube();
+
+                XDocument playlists = XDocument.Parse(playlistsxml);
+                //playlists.Descendants("feed").Descendants("Entry")
+
+                XNamespace ns = "http://www.w3.org/2005/Atom";
+                XNamespace media = "http://search.yahoo.com/mrss/";
+                XNamespace yt = "http://gdata.youtube.com/schemas/2007";
+                XNamespace gd = "http://schemas.google.com/g/2005";
+
+
+                var estates = from e in playlists.Descendants(ns + "entry") select e;
+                var items = estates.ToList();
+                foreach (var item in items)
                 {
-                    image = item.Descendants(media + "thumbnail").ToList()[2].Attribute("url").Value.ToString();
-                }
-                catch {
-                    image = "/Assets/LightGray.png";
-                };
-
-                var feedLink = item.Element(gd + "feedLink").Attribute("href").Value.ToString();
-
-                var description = item.Element(yt+ "description").Value.ToString();
-                var group6 = new SampleDataGroup(id.ToString(),
-                    title,
-                    "",
-                    image,
-                    description);
-                group6.Link = link;
-
-                string playlistdataxml = await this.MakeWebRequestForYouTube(feedLink);
-
-                XDocument playlistdata = XDocument.Parse(playlistdataxml);
-
-                var videos1 = from e in playlistdata.Descendants(ns + "entry") select e;
-                var videos = videos1.ToList();
-
-                foreach (var video in videos)
-                {
-                    var vid = video.Element(ns + "id").Value.ToString();
-                    var vtitle = video.Element(ns + "title").Value.ToString();
-                    var vdescription = video.Element(yt + "description").Value.ToString();
-
-                    var vimage = "";
                     try
                     {
-                        vimage = video.Descendants(media + "thumbnail").ToList().First().Attribute("url").Value.ToString();
-                    }
-                    catch
-                    {
-                        vimage = "/Assets/LightGray.png";
-                    };
+                        var id = item.Element(ns + "id").Value.ToString();
+                        var title = item.Element(ns + "title").Value.ToString();
+                        var link = item.Elements(ns + "link").FirstOrDefault(c => c.Attribute("rel").Value.ToString() == "alternate").Attribute("href").Value.ToString();
+                        var image = "";
+                        try
+                        {
+                            image = item.Descendants(media + "thumbnail").ToList()[2].Attribute("url").Value.ToString();
+                        }
+                        catch
+                        {
+                            image = "/Assets/LightGray.png";
+                        };
 
-                    var player = "";
-                    try
-                    {
-                        var player1 = video.Descendants(media + "player").ToList();
-                        player = player1.First().Attribute("url").Value.ToString();
-                            //.Attribute("url").Value.ToString();
-                    }
-                    catch
-                    {
-                    };
+                        var feedLink = item.Element(gd + "feedLink").Attribute("href").Value.ToString();
 
-                    group6.Items.Add(new SampleDataItem(vid,
-                    vtitle,
-                    player,
-                    vimage,
-                    vdescription,
-                    player,
-                    group6));
+                        var description = item.Element(yt + "description").Value.ToString();
+                        var group6 = new SampleDataGroup(id.ToString(),
+                            title,
+                            "",
+                            image,
+                            description);
+                        group6.Link = link;
+
+                        string playlistdataxml = await this.MakeWebRequestForYouTube(feedLink);
+
+                        XDocument playlistdata = XDocument.Parse(playlistdataxml);
+
+                        var videos1 = from e in playlistdata.Descendants(ns + "entry") select e;
+                        var videos = videos1.ToList();
+
+                        foreach (var video in videos)
+                        {
+                            try
+                            {
+                                var vid = video.Element(ns + "id").Value.ToString();
+                                var vtitle = video.Element(ns + "title").Value.ToString();
+                                var vdescription = video.Element(yt + "description").Value.ToString();
+
+                                var vimage = "";
+                                try
+                                {
+                                    vimage = video.Descendants(media + "thumbnail").ToList().First().Attribute("url").Value.ToString();
+                                }
+                                catch
+                                {
+                                    vimage = "/Assets/LightGray.png";
+                                };
+
+                                var player = "";
+                                try
+                                {
+                                    var player1 = video.Descendants(media + "player").ToList();
+                                    player = player1.First().Attribute("url").Value.ToString();
+                                    //.Attribute("url").Value.ToString();
+                                }
+                                catch
+                                {
+                                };
+
+                                group6.Items.Add(new SampleDataItem(vid,
+                                vtitle,
+                                player,
+                                vimage,
+                                vdescription,
+                                player,
+                                group6));
+                            }
+                            catch { };
+                        };
+
+                        try
+                        {
+                            this.AllGroups.Add(group6);
+                        }
+                        catch { };
+                    }
+                    catch { };
                 };
-
-                try
-                {                   
-                    this.AllGroups.Add(group6);
-                }
-                catch { };
-            };
-        }
-        //SampleDataSource.OnDataLoad(EventArgs.Empty);
+            }
+            catch { };
+            //SampleDataSource.OnDataLoad(EventArgs.Empty);
+        } 
     }
 }

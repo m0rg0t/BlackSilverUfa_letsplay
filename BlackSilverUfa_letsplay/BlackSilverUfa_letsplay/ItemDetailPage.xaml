@@ -52,7 +52,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <MediaElement Visibility="Collapsed" Name="PlayerFull" Grid.Row="1" Margin="0" Width="Auto" Loaded="Player_Loaded" Tag="{Binding Content}" AudioCategory="ForegroundOnlyMedia" AutomationProperties.Name="{Binding Content}"/>
+        <MediaElement Visibility="Collapsed" Name="PlayerFull" 
+                      Grid.Row="0" 
+                      Grid.RowSpan="2"
+                      Margin="0" 
+                      Width="Auto" Loaded="Player_Loaded" Tag="{Binding Content}" 
+                      AudioCategory="ForegroundOnlyMedia" AutomationProperties.Name="{Binding Content}"/>
 
         <ScrollViewer x:Name="scrollViewer" Style="{StaticResource HorizontalScrollViewerStyle}" Grid.Row="1">
             <StackPanel Margin="117,0,117,47" Name="MainPanel">

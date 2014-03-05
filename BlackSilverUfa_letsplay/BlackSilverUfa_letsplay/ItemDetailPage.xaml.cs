@@ -210,6 +210,8 @@ namespace BlackSilverUfa_letsplay
                 this.scrollViewer.Visibility = Visibility.Collapsed;
 
                 this.PlayerFull.Play();
+
+                this.pageTitle.Visibility = Visibility.Collapsed;
                 FullscreenOff = false;
             }
             else
@@ -222,6 +224,8 @@ namespace BlackSilverUfa_letsplay
                 this.scrollViewer.Visibility = Visibility.Visible;
 
                 this.Player.Play();
+
+                this.pageTitle.Visibility = Visibility.Visible;
                 FullscreenOff = true;
             };
         }

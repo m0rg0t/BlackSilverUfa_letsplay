@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>BlackSilverUfa_letsplay_StoreKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>D0F85452C11AC400210795580BFB5C65E7D96B5A</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>C8D03E25115C301E1D7ECD75048F9E328876DD03</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

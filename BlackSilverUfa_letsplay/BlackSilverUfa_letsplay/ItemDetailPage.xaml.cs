@@ -126,7 +126,7 @@ namespace BlackSilverUfa_letsplay
         private string GetYouTubeID(string youTubeUrl)
         {
             //Setup the RegEx Match and give it 
-            Match regexMatch = Regex.Match(youTubeUrl, "^[^v]+v=(.{11}).*",
+            Match regexMatch = Regex.Match(youTubeUrl, "[?&]v=([A-Za-z0-9_-]{11})(?:[&#]|$)",
                                RegexOptions.IgnoreCase);
             if (regexMatch.Success)
             {
